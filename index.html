@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epet Hub</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #ff7400 0%, #d3a380 100%);
+      color: white;
+      position: relative;
+    }
+
+    .gradient-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="10" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="90" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .paw-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 4rem 0 6rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: slideInUp 1s ease-out;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: slideInUp 1s ease-out 0.2s both;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: slideInUp 1s ease-out 0.4s both;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #667eea;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: #667eea;
+      transform: translateY(-3px);
+    }
+
+    .features {
+      padding: 5rem 0;
+      background: #f8f9fa;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #333;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.6s ease;
+      opacity: 0;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+      animation: shimmer 1.5s ease-in-out;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #667eea;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .feature-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Smart Dog Tracker Products Section */
+    .products-section {
+      padding: 5rem 0;
+      background: linear-gradient(135deg, #ff7400 0%, #d3a380 100%);
+    }
+
+    .products-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: white;
+    }
+
+    .products-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      overflow: hidden;
+      min-height: 400px;
+      transition: all 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .dog-image-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .dog-image {
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    .product-info {
+      flex: 1;
+      padding: 10px 30px 40px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+
+    .features-list {
+      list-style: none;
+      margin-bottom: 25px;
+    }
+
+    .features-list li {
+      margin-bottom: 8px;
+      color: #555;
+      font-size: 14px;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .features-list li::before {
+      content: "•";
+      color: #667eea;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .color-selection {
+      margin-bottom: 20px;
+    }
+
+    .color-label {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 8px;
+    }
+
+    .color-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .color-dot:hover {
+      transform: scale(1.1);
+      border-color: #667eea;
+    }
+
+    .color-dot.yellow { background-color: #ffc107; }
+    .color-dot.brown { background-color: #8b4513; }
+    .color-dot.black { background-color: #343a40; }
+
+    .product-image-container {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .tracker-image {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .tracker-image img {
+      width: 100%;
+    }
+
+    .product-specs {
+      flex: 1;
+    }
+
+    .product-specs p {
+      margin: 5px 0;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 20px 0;
+    }
+
+    .add-to-cart {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .add-to-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #28a745;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .cart-notification.show {
+      transform: translateX(0);
+    }
+
+    .product-showcase {
+      padding: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .showcase-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .device-mockup {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .device-visual {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .device-visual::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: rotate 4s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .stat {
+      opacity: 0;
+      animation: countUp 2s ease-out 1s both;
+    }
+
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4ecdc4;
+    }
+
+    .pricing {
+      padding: 5rem 0;
+      background: #f8f9fa;
+    }
+
+    .pricing h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #333;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      transform: scale(1.05);
+      border: 3px solid #667eea;
+    }
+
+    .pricing-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #667eea;
+      color: white;
+      padding: 5px 20px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .pricing-card.featured:hover {
+      transform: translateY(-10px) scale(1.05);
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #667eea;
+      margin: 1rem 0;
+    }
+
+    .footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h4 {
+      margin-bottom: 1rem;
+      color: #667eea;
+    }
+
+    .footer-section a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #667eea;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .showcase-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .product-card {
+        flex-direction: column;
+      }
+
+      .dog-image-section {
+        padding: 20px;
+      }
+
+      .dog-image {
+        width: 200px;
+        height: 200px;
+      }
+
+      .product-info {
+        padding: 30px 20px;
+      }
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.8);
+      animation: bounce 2s infinite;
+    }
+
+    .interactive-demo {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .interactive-demo:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+<header class="gradient-bg">
+  <nav class="container">
+    <div class="logo">
+      <div class="paw-icon">🐾</div>
+      Epet Hub
+    </div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <h1>GET YOUR PET'S<br>Security Right On Your Hand</h1>
+      <p>Keep Your Beloved Pet Safe And Secure With Our Advanced Smart Pet Tracker. Designed For Caring Pet Parents, It Provides Real-Time Location Tracking, Health Monitoring And Activity Insights - All From The Convenience Of Your Hand.</p>
+      <p style="margin-bottom: 2rem; font-size: 1rem; opacity: 0.9;">You'll Have Peace Of Mind Knowing That Your Pet Is Always Within Reach. Empower Your Pet's Freedom, Safely.</p>
+      <div class="cta-buttons">
+        <a href="#products" class="btn btn-primary">Get PawTracker</a>
+        <a href="#demo" class="btn btn-secondary">Watch Demo</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div style="font-size: 2rem;">↓</div>
+    </div>
+  </section>
+</header>
+
+<section class="features" id="features">
+  <div class="container">
+    <h2>Why Pet Parents Love PawTracker</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h3>Real-Time GPS Tracking</h3>
+        <p>Know exactly where your pet is at all times with precision GPS tracking. Get instant notifications if they leave safe zones.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">❤️</div>
+        <h3>Health Monitoring</h3>
+        <p>Track your pet's activity levels, sleep patterns, and vital signs. Early detection of health issues saves lives.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔋</div>
+        <h3>Long-Lasting Battery</h3>
+        <p>Up to 7 days of battery life with smart power management. Waterproof design handles any adventure.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Smart Mobile App</h3>
+        <p>Intuitive app with live tracking, health insights, and social features to connect with other pet parents.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚨</div>
+        <h3>Instant Alerts</h3>
+        <p>Immediate notifications for unusual activity, location changes, or potential health concerns.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Global Coverage</h3>
+        <p>Works worldwide with our extensive network of cellular and satellite connections.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Smart Dog Tracker Products Section -->
+<section class="products-section" id="products">
+  <div class="container">
+    <h2>Choose Your Perfect Tracker</h2>
+  </div>
+
+  <div class="products-container">
+    <!-- Smart Dog Tracker -->
+    <div class="product-card">
+      <div class="dog-image-section">
+        <img src="images/puppy.png" alt="Golden Retriever Puppy" class="dog-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Smart Dog Tracker</h2>
+        <ul class="features-list">
+          <li>GPS Live Tracking & Escape Alerts</li>
+          <li>Virtual Bark Monitoring</li>
+          <li>Health Alerts & Activity Monitoring</li>
+        </ul>
+
+        <div class="color-selection">
+          <span class="color-label">Select Color:</span>
+          <div class="color-options">
+            <div class="color-dot yellow" onclick="selectColor(this)"></div>
+            <div class="color-dot brown" onclick="selectColor(this)"></div>
+            <div class="color-dot black" onclick="selectColor(this)"></div>
+          </div>
+        </div>
+
+        <div class="product-image-container">
+          <div class="tracker-image">
+            <img src="images/p_tracker.png">
+          </div>
+          <div class="product-specs">
+            <p>• For Dogs Weighing 4 Kg And Above</p>
+            <p>• Battery Life Up To 14 Days</p>
+          </div>
+        </div>
+
+        <div class="price">Rs. 2500.00</div>
+        <button class="add-to-cart" onclick="addToCart('Smart Dog Tracker', 2500)">Add To Cart</button>
+      </div>
+    </div>
+
+    <!-- Smart Dog Tracker XL -->
+    <div class="product-card">
+      <div class="dog-image-section">
+        <img src="images/puppy_2.png" alt="Rottweiler" class="dog-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Smart Dog Tracker XL</h2>
+        <ul class="features-list">
+          <li>GPS Live Tracking & Escape Alerts</li>
+          <li>Health Alerts</li>
+          <li>Activity & Sleep Monitoring</li>
+          <li>Danger Reports: See Nearby Pet Risks</li>
+        </ul>
+
+        <div class="color-selection">
+          <span class="color-label">Select Color:</span>
+          <div class="color-options">
+            <div class="color-dot yellow" onclick="selectColor(this)"></div>
+            <div class="color-dot brown" onclick="selectColor(this)"></div>
+            <div class="color-dot black" onclick="selectColor(this)"></div>
+          </div>
+        </div>
+
+        <div class="product-image-container">
+          <div class="tracker-image">
+            <img src="images/p2_tracker.png">
+          </div>
+          <div class="product-specs">
+            <p>• For All Dogs Above 22 Kg</p>
+            <p>• Up To 1 Month* Without Charging</p>
+          </div>
+        </div>
+
+        <div class="price">Rs. 5000.00</div>
+        <button class="add-to-cart" onclick="addToCart('Smart Dog Tracker XL', 5000)">Add To Cart</button>
+      </div>
+    </div>
+
+    <!-- Smart Cat Tracker -->
+    <div class="product-card">
+      <div class="dog-image-section">
+        <img src="images/cat.png" alt="Cat" class="dog-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Smart Cat Tracker</h2>
+        <ul class="features-list">
+          <li>Track With Live GPS, Discover Their Territory</li>
+          <li>Know Every Detail Of Your Cat's Day</li>
+          <li>Health Alerts & Activity Monitoring</li>
+          <li>Free Award-Winning Safety Collar Included</li>
+        </ul>
+
+        <div class="color-selection">
+          <span class="color-label">Select Color:</span>
+          <div class="color-options">
+            <div class="color-dot yellow" onclick="selectColor(this)"></div>
+            <div class="color-dot brown" onclick="selectColor(this)"></div>
+            <div class="color-dot black" onclick="selectColor(this)"></div>
+          </div>
+        </div>
+
+        <div class="product-image-container">
+          <div class="tracker-image">
+            <img src="images/c_tracker.png">
+          </div>
+          <div class="product-specs">
+            <p>• Up To 7 Days Without Charging</p>
+          </div>
+        </div>
+
+        <div class="price">Rs. 2500.00</div>
+        <button class="add-to-cart" onclick="addToCart('Smart Cat Tracker', 5000)">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-notification" id="cartNotification">
+    Item added to cart!
+  </div>
+</section>
+
+<section class="product-showcase" id="demo">
+  <div class="container">
+    <div class="showcase-content">
+      <div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Meet the PawTracker Pro</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+          Lightweight, comfortable, and packed with cutting-edge technology.
+          Designed specifically for pets of all sizes, from tiny cats to large dogs.
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">50,000+</div>
+            <div>Happy Pets</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">99.9%</div>
+            <div>Accuracy</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">24/7</div>
+            <div>Monitoring</div>
+          </div>
+        </div>
+      </div>
+      <div class="device-mockup interactive-demo" onclick="animateDevice()">
+        <div class="device-visual" id="device">
+          🐕
+        </div>
+        <h3>Click to see it in action!</h3>
+        <p>Lightweight • Waterproof • Long-lasting</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2>Choose Your Protection Plan</h2>
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <h3>Basic</h3>
+        <div class="price">$99</div>
+        <p>Perfect for indoor pets</p>
+        <ul style="text-align: left; margin: 1rem 0; list-style: none; padding: 0;">
+          <li>✓ GPS Tracking</li>
+          <li>✓ Safe Zone Alerts</li>
+          <li>✓ Basic Health Stats</li>
+          <li>✓ Mobile App</li>
+        </ul>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Get Basic</button>
+      </div>
+
+      <div class="pricing-card featured">
+        <h3>Pro</h3>
+        <div class="price">$149</div>
+        <p>Best for active pets</p>
+        <ul style="text-align: left; margin: 1rem 0; list-style: none; padding: 0;">
+          <li>✓ Everything in Basic</li>
+          <li>✓ Advanced Health Monitoring</li>
+          <li>✓ Activity Challenges</li>
+          <li>✓ Vet Integration</li>
+          <li>✓ Priority Support</li>
+        </ul>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Get Pro</button>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Enterprise</h3>
+        <div class="price">$199</div>
+        <p>For multiple pets</p>
+        <ul style="text-align: left; margin: 1rem 0; list-style: none; padding: 0;">
+          <li>✓ Everything in Pro</li>
+          <li>✓ Up to 10 pets</li>
+          <li>✓ Family sharing</li>
+          <li>✓ Advanced analytics</li>
+          <li>✓ Custom alerts</li>
+        </ul>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Get Enterprise</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="contact">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Product</h4>
+        <p><a href="#">Features</a></p>
+        <p><a href="#">Pricing</a></p>
+        <p><a href="#">Reviews</a></p>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <p><a href="#">Help Center</a></p>
+        <p><a href="#">Setup Guide</a></p>
+        <p><a href="#">Contact Us</a></p>
+      </div>
+      <div class="footer-section">
+        <h4>Company</h4>
+        <p><a href="#">About Us</a></p>
+        <p><a href="#">Privacy Policy</a></p>
+        <p><a href="#">Terms of Service</a></p>
+      </div>
+    </div>
+    <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #555;">
+      © 2025 Epet Hub. Keeping pets safe, families happy. 🐾
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // Smart Dog Tracker Color Selection
+  function selectColor(element) {
+    // Remove active class from all color dots in the same container
+    const container = element.parentNode;
+    const dots = container.querySelectorAll('.color-dot');
+    dots.forEach(dot => dot.style.border = '2px solid #ddd');
+
+    // Add active styling to selected color
+    element.style.border = '2px solid #667eea';
+  }
+
+  // Add to Cart functionality
+  function addToCart(productName, price) {
+    // Show notification
+    const notification = document.getElementById('cartNotification');
+    notification.textContent = `${productName} added to cart! Rs. ${price}`;
+    notification.classList.add('show');
+
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+
+    // Here you could add actual cart functionality
+    console.log(`Added to cart: ${productName} - Rs. ${price}`);
+  }
+
+  // Interactive device animation
+  function animateDevice() {
+    const device = document.getElementById('device');
+    const emojis = ['🐕', '🐱', '🐰', '🦎', '🐹'];
+    let currentIndex = 0;
+
+    const interval = setInterval(() => {
+      device.style.transform = 'scale(0.8) rotate(180deg)';
+
+      setTimeout(() => {
+        currentIndex = (currentIndex + 1) % emojis.length;
+        device.textContent = emojis[currentIndex];
+        device.style.transform = 'scale(1) rotate(0deg)';
+      }, 200);
+    }, 800);
+
+    // Stop animation after showing all pets
+    setTimeout(() => {
+      clearInterval(interval);
+      device.style.transform = 'scale(1) rotate(0deg)';
+    }, 4000);
+  }
+
+  // Add scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  // Observe feature cards, product cards and pricing cards
+  document.querySelectorAll('.feature-card, .pricing-card, .product-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
+  });
+
+  // Add click animations to buttons
+  document.querySelectorAll('.btn, .add-to-cart').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      // Create ripple effect
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}px;
+        top: ${y}px;
+        background: rgba(255,255,255,0.5);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: ripple 0.6s ease-out;
+      `;
+
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+
+  // Add ripple animation keyframes
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Auto-animate stats when they come into view
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const statNumbers = entry.target.querySelectorAll('.stat-number');
+        statNumbers.forEach((stat, index) => {
+          setTimeout(() => {
+            stat.style.animation = 'countUp 2s ease-out';
+          }, index * 200);
+        });
+      }
+    });
+  });
+
+  const statsSection = document.querySelector('.stats');
+  if (statsSection) {
+    statsObserver.observe(statsSection);
+  }
+
+  // Initialize first color selection for both products
+  document.addEventListener('DOMContentLoaded', function() {
+    const firstColorDots = document.querySelectorAll('.color-options .color-dot:first-child');
+    firstColorDots.forEach(dot => selectColor(dot));
+  });
+</script>
+</body>
+</html>
